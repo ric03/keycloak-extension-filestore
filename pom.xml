@@ -54,7 +54,6 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <keycloak.version>26.4.0</keycloak.version>
     <auto-service.version>1.1.1</auto-service.version>
-    <spotless.version>2.44.3</spotless.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <junit.version>5.12.1</junit.version>
@@ -213,6 +212,12 @@
           </configuration>
         </plugin>
 
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.12</version>
+        </plugin>
+
         <!-- Attach sources JAR -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -238,51 +243,6 @@
               <id>attach-javadocs</id>
               <goals>
                 <goal>jar</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-
-        <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.12</version>
-        </plugin>
-
-        <plugin>
-          <groupId>com.diffplug.spotless</groupId>
-          <artifactId>spotless-maven-plugin</artifactId>
-          <version>${spotless.version}</version>
-          <configuration>
-            <formats>
-              <format>
-                <includes>
-                  <include>.gitattributes</include>
-                  <include>.gitignore</include>
-                </includes>
-                <trimTrailingWhitespace></trimTrailingWhitespace>
-                <endWithNewline></endWithNewline>
-                <indent>
-                  <spaces>true</spaces>
-                  <spacesPerTab>4</spacesPerTab>
-                </indent>
-              </format>
-            </formats>
-            <!-- define a language-specific format -->
-            <java>
-              <palantirJavaFormat></palantirJavaFormat>
-              <importOrder></importOrder>
-              <removeUnusedImports></removeUnusedImports>
-              <formatAnnotations></formatAnnotations>
-            </java>
-            <pom>
-              <sortPom></sortPom>
-            </pom>
-          </configuration>
-          <executions>
-            <execution>
-              <goals>
-                <goal>check</goal>
               </goals>
             </execution>
           </executions>
@@ -371,6 +331,47 @@
                             -Duser.region=US</argLine>
           </systemPropertyVariables>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>2.44.3</version>
+        <configuration>
+          <formats>
+            <format>
+              <includes>
+                <include>.gitattributes</include>
+                <include>.gitignore</include>
+              </includes>
+              <trimTrailingWhitespace/>
+              <endWithNewline/>
+              <indent>
+                <spaces>true</spaces>
+                <spacesPerTab>4</spacesPerTab>
+              </indent>
+            </format>
+          </formats>
+          <!-- define a language-specific format -->
+          <java>
+            <palantirJavaFormat/>
+            <importOrder/>
+            <removeUnusedImports/>
+            <formatAnnotations/>
+          </java>
+          <pom>
+            <sortPom>
+              <expandEmptyElements>false</expandEmptyElements>
+            </sortPom>
+          </pom>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
